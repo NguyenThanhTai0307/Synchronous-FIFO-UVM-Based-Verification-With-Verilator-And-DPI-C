@@ -22,6 +22,15 @@ class Reset_stress_seq extends Fifo_base_seq;
     // 4. HARD RESET DURING ACTIVE READ
     drive_tx(.r_rstn(0), .r_wr_en(0), .r_rd_en(1), .r_din(8'h00));
 
+    // 5. Write a few items (Mid-range)
+    repeat(4) drive_tx(.r_rstn(1), .r_wr_en(1), .r_rd_en(0), .r_din(8'hFF));
+
+    // 6. Read until empty
+    repeat(4) drive_tx(.r_rstn(1), .r_wr_en(0), .r_rd_en(1), .r_din(8'h00));
+
+    // 7. HARD RESET AT EMPTY
+    drive_tx(.r_rstn(0), .r_wr_en(1), .r_rd_en(0), .r_din(8'h00));
+
     test_done = 1;
   endtask
 endclass
