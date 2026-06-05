@@ -52,7 +52,7 @@ class Predictor extends uvm_subscriber #(Input_item);
       internal_fifo.delete();
       $display("[PREDICTOR] Reset Asserted -> FIFO Cleared");
     end
-
+    else begin
     // 2. Execute Read (Pop)
     if (valid_read) begin
       popped_data = internal_fifo.pop_front();
@@ -83,6 +83,7 @@ class Predictor extends uvm_subscriber #(Input_item);
                exp_item.dout, exp_item.full, exp_item.empty);
                
       analysis_port.write(exp_item);
+    end
     end
   endfunction
 endclass
