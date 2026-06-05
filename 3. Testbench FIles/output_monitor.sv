@@ -36,7 +36,7 @@ task run_phase(uvm_phase phase);
       end
 
       // 2. Check CURRENT cycle to set the pending flag for the NEXT cycle
-      read_pending = (m_vif.input_cb.rd_en && !m_vif.input_cb.empty);
+      read_pending = (m_vif.input_cb.rstn && m_vif.input_cb.rd_en && !m_vif.input_cb.empty);
     end
   endtask
 endclass
