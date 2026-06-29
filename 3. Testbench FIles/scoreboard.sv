@@ -5,7 +5,6 @@
 
 class Scoreboard extends uvm_scoreboard;
   `uvm_component_utils(Scoreboard)
-  uvm_comparer custom_comparer;
 
   parameter DATA_WIDTH = 8;
 
@@ -13,7 +12,6 @@ class Scoreboard extends uvm_scoreboard;
   uvm_analysis_imp_act#(Output_item, Scoreboard) act_analysis_export;
 
   Output_item exp_queue[$], data_queue[$];
-  Output_item latency_queue[$];
 
   function new(string name = "Scoreboard", uvm_component parent = null);
     super.new(name, parent);
@@ -24,9 +22,6 @@ class Scoreboard extends uvm_scoreboard;
 
   function void build_phase (uvm_phase phase);
     super.build_phase(phase);
-
-    custom_comparer = new("custom_comparer");
-    custom_comparer.show_max = 0;
   endfunction
 
   function void write_exp(Output_item item);
@@ -45,7 +40,7 @@ function void write_act(Output_item item);
         if (exp_queue.size() > 0) begin
           exp_item = exp_queue.pop_front();
 
-          if (exp_item.compare(item, custom_comparer))
+          if (exp_item.compare(item))
             `uvm_info(get_type_name(), $sformatf("[SCB] DATA MATCH: DOUT - 0x%0h", item.dout), UVM_LOW)
           else
             `uvm_info(get_type_name(), $sformatf("[SCB] DATA MISMATCH: DOUT - 0x%0h (EXP) vs 0x%0h (ACT) || FULL - %0b vs %0b || EMPTY - %0b vs %0b",
