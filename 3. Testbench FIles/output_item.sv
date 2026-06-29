@@ -18,7 +18,6 @@ class Output_item extends uvm_sequence_item;
     Output_item _rhs;
     bit status;
 
-    // Call super.do_compare and capture its status
     status = super.do_compare(rhs, comparer);
 
     if ($cast(_rhs, rhs) == 0) begin
