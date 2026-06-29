@@ -8,7 +8,6 @@ class Fifo_base_seq extends Base_sequence;
     super.new(name);
   endfunction
 
-  // Helper task to abstract the repetitive UVM driver handshakes
   virtual task drive_tx(bit r_rstn, bit r_wr_en, bit r_rd_en, logic [DATA_WIDTH-1:0] r_din);
     seq_item = Input_item::type_id::create("seq_item");
     seq_item.c_wr.constraint_mode(0);
@@ -28,7 +27,6 @@ class Fifo_base_seq extends Base_sequence;
     wait_for_item_done();
   endtask
 
-  // Initialize array (Reused from your base_sequence)
   virtual task pre_body();
     data_pool = new[DEPTH];
     foreach (data_pool[i]) data_pool[i] = 8'(i);
