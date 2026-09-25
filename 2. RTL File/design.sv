@@ -13,17 +13,20 @@ module sync_fifo #(
     output full, empty
 );
 
-  reg [$clog2(DEPTH) - 1 : 0] wr_pt = 0;
-  reg [$clog2(DEPTH) - 1 : 0] rd_pt = 0;
-  reg [$clog2(DEPTH) : 0] count = 0;
+localparam ADDR_WIDTH = $clog2(DEPTH);
 
-reg [WIDTH - 1 : 0] fifo [DEPTH];
+reg [ADDR_WIDTH - 1 : 0] wr_pt;
+reg [ADDR_WIDTH - 1 : 0] rd_pt;
+reg [ADDR_WIDTH : 0] count;
+
+reg [WIDTH - 1 : 0] fifo [0 : DEPTH - 1];
 
 always @(posedge clk) begin
     if (!rstn) begin
         count <= 0;
         wr_pt <= 0;
         rd_pt <= 0;
+        dout  <= 0;
     end 
     else begin
         // Handle Pointer Increments independently
